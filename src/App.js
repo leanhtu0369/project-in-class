@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import "./scss/index.scss";
+import Counter from "./components/Counter";
+import ReactDOM from "react-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { MyGlobalContext } from "./context/MyGlobalContext";
+
+class App extends Component {
+  constructor() {
+    super()
+
+    this.state = {
+      gContext: {
+        name: 'Nguyễn Văn A',
+        age: 16
+      }
+    }
+
+    this.myText = React.createRef()
+    this.myCounter = React.createRef()
+  }
+
+  componentWillMount() {
+    // console.log('before',this.myText);
+    // console.log('before',this.myCounter);
+  }
+
+  componentDidMount() {
+    // console.log('after',this.myText);
+    console.log('after',this.myCounter);
+
+    const node = ReactDOM.findDOMNode(this.myCounter.current)
+    // console.log(node)
+  }
+
+  incrementInApp = () => {
+    this.myCounter.current.setState({
+      count: this.myCounter.current.state.count + 2
+    })
+  }
+
+  render() {
+    return (
+      <>
+        <MyGlobalContext.Provider value={ this.state.gContext }>
+          <h1 ref={ this.myText }></h1>
+          {/* <Todo /> */}
+          <Counter ref={ this.myCounter }/>
+
+          <button onClick={ this.incrementInApp }>increment IN APP</button>
+        </MyGlobalContext.Provider>
+      </>
+    )
+  }
 }
 
-export default App;
+export default App
