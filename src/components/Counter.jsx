@@ -38,4 +38,6 @@ class Counter extends Component {
   }
 }
 
+// Counter.contextType = MyGlobalContext
+
 export default Counter
